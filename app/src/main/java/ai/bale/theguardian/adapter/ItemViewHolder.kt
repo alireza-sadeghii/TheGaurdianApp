@@ -1,13 +1,12 @@
 package ai.bale.theguardian.adapter
 
-import android.view.View
 import android.widget.TextView
-import ai.bale.theguardian.R
+import ai.bale.theguardian.databinding.ListItemBinding
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 
-class ItemViewHolder (private val view : View) : RecyclerView.ViewHolder(view) {
-    val item_title: TextView = view.findViewById(R.id.news_title)
-    val item_caption: TextView = view.findViewById(R.id.news_caption)
-    val item_thumbnail: ImageView = view.findViewById(R.id.news_thumbnail)
+class ItemViewHolder (private val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    val itemTitle: TextView = binding.newsTitle
+    val itemCaption: TextView = binding.newsCaption
+    val itemThumbnail: ImageView = binding.newsThumbnail
 }
