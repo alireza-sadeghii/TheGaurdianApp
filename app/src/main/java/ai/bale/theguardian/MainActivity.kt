@@ -17,7 +17,7 @@ private lateinit var barBinding: ToolbarMainBinding
 private lateinit var contentBinding: MainContentBinding
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
     override fun onCreate(savedInstanceState: Bundle?) {
-
+        //TODO
         super.onCreate(savedInstanceState)
 
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
