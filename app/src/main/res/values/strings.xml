@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">TheGuardian</string>
     <string name="api_key">6759b795–5931-4c89-98ac-8e6bfe81d37c</string>
+    <string name="title">The Guardian</string>
+    <string name="home">HOME</string>
+    <string name="world">WORLD</string>
+    <string name="science">SCIENCE</string>
+    <string name="sport">SPORT</string>
+    <string name="environment">ENVIRONMENT</string>
+    <string name="society">SOCIETY</string>
+    <string name="fashion">FASHION</string>
+    <string name="business">BUSINESS</string>
+    <string name="culture">CULTURE</string>
+    <string name="open_menu">Menu Opened</string>
+    <string name="close_menu">Menu Closed</string>
+    <string name="content_description">ViewPager Content Description</string>
 </resources>
