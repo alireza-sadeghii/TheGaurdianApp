@@ -1,6 +1,5 @@
 package ai.bale.theguardian.network
 
-import ai.bale.theguardian.R
 import ai.bale.theguardian.model.ApiResponse
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -30,12 +29,12 @@ object GuardianApi {
 
 interface GuardianApiService {
     @GET("search")
-    fun callData(
-        @Query("q") query: String, @Query("format") format: String = "json",
-        @Query("tag") tag: String, @Query("show-tags") show_tags: String = "contributor",
+    suspend fun callData(
+        @Query("format") format: String = "json",
+        @Query("tag") tag: String,
+        @Query("show-tags") show_tags: String = "contributor",
         @Query("show-fields") fields: String = "starRating,headline,thumbnail",
         @Query("show-blocks") block: String = "body",
-        @Query("order-by") order: String = "relevance",
-        @Query("api-key") key: String = R.string.api_key.toString()
-    ) : List<ApiResponse>
+        @Query("api-key") key: String
+    ) : ApiResponse
 }
