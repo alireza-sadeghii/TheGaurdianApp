@@ -9,4 +9,7 @@ class ItemViewHolder (private val binding: ListItemBinding) : RecyclerView.ViewH
     val itemTitle: TextView = binding.newsTitle
     val itemCaption: TextView = binding.newsCaption
     val itemThumbnail: ImageView = binding.newsThumbnail
+    val itemAuthor : TextView = binding.author
+    val itemDate : TextView = binding.date
+    val itemTag : TextView = binding.newsTag
 }
