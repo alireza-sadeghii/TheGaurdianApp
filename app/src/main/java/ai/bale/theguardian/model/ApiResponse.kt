@@ -1,5 +1,7 @@
 package ai.bale.theguardian.model
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
-data class ApiResponse(@Json (name = "status") val status: String,@Json (name = "total") val resultNum: Int,@Json (name = "results") val news: List<News>)
+data class ApiResponse(@SerializedName("status") val status: String,
+                       @SerializedName ("total") val resultNum: Int,
+                       @SerializedName ("results") val news: List<News>)
