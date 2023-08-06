@@ -1,6 +1,11 @@
 package ai.bale.theguardian.model
 
-data class News(val id: String, val type: String, val sectionName: String, val sectionId: String,
-                val pDate: String, val title: String, val url: String,
-                val rating: Int, val thumbnail: String, val author: String,
-                val body: String)
+import com.google.gson.annotations.SerializedName
+
+data class News(
+    @SerializedName("sectionName") val sectionName: String,
+    @SerializedName("webPublicationDate") val pDate: String,
+    @SerializedName("webUrl") val url: String,
+    @SerializedName("fields") val fields: Field,
+    @SerializedName("tags") val tags: List<Tag>
+)
