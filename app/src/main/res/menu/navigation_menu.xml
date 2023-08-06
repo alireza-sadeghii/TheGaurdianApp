@@ -8,34 +8,38 @@
     <group android:checkableBehavior="single">
         <item android:id="@+id/menu_home"
             android:icon="@drawable/home"
-            android:title="Home"/>
+            android:title="@string/home"/>
 
         <item android:id="@+id/menu_world"
             android:icon="@drawable/world"
-            android:title="World"/>
+            android:title="@string/world"/>
 
         <item android:id="@+id/menu_science"
             android:icon="@drawable/science"
-            android:title="Science"/>
+            android:title="@string/science"/>
 
         <item android:id="@+id/menu_sport"
             android:icon="@drawable/sport"
-            android:title="Sport"/>
+            android:title="@string/sport"/>
 
         <item android:id="@+id/menu_environment"
             android:icon="@drawable/environment"
-            android:title="Environment"/>
+            android:title="@string/environment"/>
 
         <item android:id="@+id/menu_society"
             android:icon="@drawable/society"
-            android:title="Society"/>
+            android:title="@string/society"/>
 
         <item android:id="@+id/menu_fashion"
             android:icon="@drawable/fashion"
-            android:title="Fashion"/>
+            android:title="@string/fashion"/>
+
+        <item android:id="@+id/menu_business"
+            android:icon="@drawable/business"
+            android:title="@string/business"/>
 
         <item android:id="@+id/menu_culture"
             android:icon="@drawable/culture"
-            android:title="Culture"/>
+            android:title="@string/culture"/>
     </group>
 </menu>

@@ -1,59 +1,88 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/item_news.xml -->
+
 <androidx.cardview.widget.CardView
-    android:id="@+id/item_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="10dp"
-    android:layout_margin="10dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="3"
-        android:orientation="horizontal"
-        android:layout_margin="5dp">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-
-        <LinearLayout
-            android:layout_width="0dp"
+        <!-- First Row: Title -->
+        <TextView
+            android:id="@+id/news_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="vertical"
-            android:layout_margin="10dp">
+            android:text="Sample Title"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/news_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sample Tag"
+            android:textSize="11sp"/>
 
-            <TextView
-                android:id="@+id/news_title"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <!-- Second and Third Row: Two Columns -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
 
-            </TextView>
-
+            <!-- Left Column: Body of Article -->
             <TextView
                 android:id="@+id/news_caption"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Article body goes here..."
+                android:textSize="16sp"/>
 
-            </TextView>
+            <!-- Right Column: Image -->
+            <ImageView
+                android:id="@+id/news_thumbnail"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/the_guardian_logo"
+                android:layout_marginStart="8dp"/>
+
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/news_thumbnail"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:scaleType="centerCrop"
-            android:src="@drawable/the_guardian_logo">
+        <!-- Third Row: Author and Date -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
 
-        </ImageView>
+            <!-- Left Column: Author -->
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Author Name"
+                android:textSize="14sp"/>
+
+            <!-- Right Column: Date -->
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Publication Date"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray" />
+
+        </LinearLayout>
+
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>
