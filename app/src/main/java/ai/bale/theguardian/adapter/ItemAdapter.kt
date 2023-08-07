@@ -3,6 +3,7 @@ package ai.bale.theguardian.adapter
 
 import ai.bale.theguardian.databinding.ListItemBinding
 import ai.bale.theguardian.model.News
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -13,7 +14,7 @@ import coil.load
 import org.jsoup.Jsoup
 import java.lang.Exception
 
-class ItemAdapter(private val context: Context?, private val dataset: List<News>) :
+class ItemAdapter(private val context: Context?, private var dataset: List<News>) :
     RecyclerView.Adapter<ItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val adapterLayout = ListItemBinding
@@ -52,4 +53,11 @@ class ItemAdapter(private val context: Context?, private val dataset: List<News>
         }
 
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(newData: List<News>){
+        dataset = newData
+        notifyDataSetChanged()
+    }
+
 }

@@ -25,6 +25,6 @@ object GuardianApi {
 interface GuardianApiService {
     @GET("search?format=json&show-tags=contributor&show-fields=starRating,headline,thumbnail,body&api-key=test")
     fun callData(
-        @Query ("section") section : String
+        @Query("section") section: String
     ): Call<FetchedData>
 }
