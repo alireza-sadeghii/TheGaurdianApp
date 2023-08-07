@@ -5,10 +5,10 @@ import ai.bale.theguardian.databinding.ActivityMainBinding
 import ai.bale.theguardian.databinding.ToolbarMainBinding
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+import androidx.core.view.get
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 
@@ -18,10 +18,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//
+
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         toolbarBinding = ToolbarMainBinding.inflate(layoutInflater)
-//
+
         setContentView(mainBinding.root)
 
 
@@ -29,19 +29,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
 
-        //
 
         val viewPager = mainBinding.viewpager
         val viewAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPager.adapter = viewAdapter
         viewPager.offscreenPageLimit = 2
-        //
+
+
+
+        val navigationView = mainBinding.navigationViewMain
+        navigationView.setNavigationItemSelectedListener(this)
 
         val tabLayout = mainBinding.toolbarTabs
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                Log.v("checking",tab.toString())
                 viewPager.currentItem = tab!!.position
+                navigationView.menu[tab.position].isChecked = true
                 tab.select()
             }
 
@@ -57,10 +60,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toggleButton = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_menu, R.string.close_menu)
         drawerLayout.addDrawerListener(toggleButton)
         toggleButton.syncState()
-
-        val navigationView = mainBinding.navigationViewMain
-        navigationView.setNavigationItemSelectedListener(this)
-
 
     }
 
