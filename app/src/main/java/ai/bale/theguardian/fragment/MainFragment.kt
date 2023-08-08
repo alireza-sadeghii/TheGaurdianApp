@@ -3,21 +3,21 @@ package ai.bale.theguardian.fragment
 import ai.bale.theguardian.R
 import ai.bale.theguardian.adapter.ItemAdapter
 import ai.bale.theguardian.databinding.FragmentLayoutBinding
+import ai.bale.theguardian.db.AppDatabase
 import ai.bale.theguardian.network.GuardianApi
 import ai.bale.theguardian.repository.DataRepository
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class MainFragment(val category: String) : Fragment() {
-
-    private lateinit var newsRepository: DataRepository
-    private lateinit var itemAdapter: ItemAdapter
+class MainFragment(private val category: String) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,20 +31,19 @@ class MainFragment(val category: String) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentLayoutBinding.bind(view)
+        val itemAdapter = ItemAdapter()
 
         val recyclerView = binding.recyclerview
-        recyclerView.layoutManager = LinearLayoutManager(context)
-
-        val apiService = GuardianApi.retrofitService
-        val newsRepository = DataRepository(apiService)
-
-        val itemAdapter = ItemAdapter(context, emptyList())
-
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = itemAdapter
 
+        val apiService = GuardianApi.retrofitService
+        val database = AppDatabase.getInstance(requireContext())
+        val repository = DataRepository(apiService, database)
+
         viewLifecycleOwner.lifecycleScope.launch {
-            newsRepository.getNews(category).collect { news ->
-                itemAdapter.updateData(news)
+            repository.getNews(category).collectLatest { pagingData ->
+                itemAdapter.submitData(pagingData)
             }
         }
     }
