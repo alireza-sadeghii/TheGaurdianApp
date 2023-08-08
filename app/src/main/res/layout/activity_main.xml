@@ -113,7 +113,9 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/navigation_menu_header"
-        app:menu="@menu/navigation_menu"/>
+        app:menu="@menu/navigation_menu"
+        app:itemIconTint="@color/gray"
+        app:itemVerticalPadding="10dp"/>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
