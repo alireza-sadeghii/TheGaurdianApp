@@ -5,6 +5,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 
@@ -23,8 +24,10 @@ object GuardianApi {
 }
 
 interface GuardianApiService {
-    @GET("search?format=json&show-tags=contributor&show-fields=starRating,headline,thumbnail,body&api-key=test")
+    @GET("{section}?api-key=test&format=json&show-tags=contributor&show-fields=starRating,headline,thumbnail,body")
     fun callData(
-        @Query("section") section: String
+        @Path("section") section: String,
+        @Query("page") page: Int,
+        @Query("page-size") page_size: Int
     ): Call<FetchedData>
 }
