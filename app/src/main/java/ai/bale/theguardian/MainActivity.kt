@@ -6,6 +6,8 @@ import ai.bale.theguardian.databinding.ToolbarMainBinding
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.window.OnBackInvokedDispatcher
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.core.view.get
@@ -61,18 +63,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggleButton)
         toggleButton.syncState()
 
-    }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        val drawerLayout = mainBinding.drawerLayoutMain
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
+        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                }
+            }
+        })
 
+    }
+    
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val viewPager = mainBinding.viewpager
