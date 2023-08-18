@@ -1,63 +1,39 @@
 package ai.bale.theguardian.adapter
 
 
-import ai.bale.theguardian.databinding.ListItemBinding
 import ai.bale.theguardian.model.News
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.net.toUri
-import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import org.jsoup.Jsoup
-import java.lang.Exception
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
+import ai.bale.theguardian.databinding.ListItemBinding
+import android.util.Log
 
-class ItemAdapter(private val context: Context?, private var dataset: List<News>) :
-    RecyclerView.Adapter<ItemViewHolder>() {
+
+class ItemAdapter : PagingDataAdapter<News, ItemViewHolder>(COMPARATOR) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val adapterLayout = ListItemBinding
-            .inflate(LayoutInflater.from(parent.context), parent, false)
-
-        return ItemViewHolder(adapterLayout)
+        Log.v("checking", "create holder")
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ListItemBinding.inflate(inflater, parent, false)
+        return ItemViewHolder(binding)
     }
-
-    override fun getItemCount(): Int = dataset.size
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val item = dataset[position]
-
-        holder.itemThumbnail.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, item.url.toUri())
-            context?.startActivity(browserIntent)
+        val newsItem = getItem(position)
+        newsItem?.let {
+            holder.bind(it)
         }
-        holder.itemTitle.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, item.url.toUri())
-            context?.startActivity(browserIntent)
-        }
+    }
 
-        try {
-            holder.itemTitle.text = item.fields.title
-            holder.itemCaption.text = Jsoup.parse(item.fields.news_body).text().take(150)
-            holder.itemAuthor.text = item.tags[0].getAuthor()
-            holder.itemDate.text = item.pDate.split("T")[0]
-            holder.itemTag.text = item.sectionName
-            item.fields.image.let {
-                holder.itemThumbnail.load(
-                    item.fields.image.toUri().buildUpon().scheme("https").build()
-                )
+    companion object {
+        private val COMPARATOR = object : DiffUtil.ItemCallback<News>() {
+            override fun areItemsTheSame(oldItem: News, newItem: News): Boolean {
+                return oldItem.fields.title == newItem.fields.title
             }
-        } catch (_: Exception) {
 
+            override fun areContentsTheSame(oldItem: News, newItem: News): Boolean {
+                return oldItem == newItem
+            }
         }
-
     }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateData(newData: List<News>){
-        dataset = newData
-        notifyDataSetChanged()
-    }
-
 }
