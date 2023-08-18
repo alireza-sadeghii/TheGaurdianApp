@@ -17,8 +17,8 @@ interface NewsDao {
     suspend fun clearAll()
 
     @Query("SELECT * FROM articles")
-    fun getAll() : PagingSource<Int, News>
+    fun getAll() : PagingSource<Int, NewsEntity>
 
-    @Query("SELECT * FROM articles WHERE sectionName = :category")
-    fun getAllBySection(category: String) : PagingSource<Int, News>
+    @Query("SELECT * FROM articles WHERE LOWER(sectionName) = :category")
+    fun getAllBySection(category: String) : PagingSource<Int, NewsEntity>
 }

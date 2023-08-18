@@ -2,10 +2,10 @@ package ai.bale.theguardian.fragment
 
 import ai.bale.theguardian.R
 import ai.bale.theguardian.adapter.ItemAdapter
+import ai.bale.theguardian.data.NewsViewModel
 import ai.bale.theguardian.databinding.FragmentLayoutBinding
 import ai.bale.theguardian.db.AppDatabase
 import ai.bale.theguardian.network.GuardianApi
-import ai.bale.theguardian.repository.DataRepository
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -39,11 +39,12 @@ class MainFragment(private val category: String) : Fragment() {
 
         val apiService = GuardianApi.retrofitService
         val database = AppDatabase.getInstance(requireContext())
-        val repository = DataRepository(apiService, database)
+        val viewModel = NewsViewModel(database, apiService, category)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            repository.getNews(category).collectLatest { pagingData ->
-                itemAdapter.submitData(pagingData)
+
+        lifecycleScope.launch {
+            viewModel.pagingFlow().collectLatest { new ->
+                itemAdapter.submitData(new)
             }
         }
     }
