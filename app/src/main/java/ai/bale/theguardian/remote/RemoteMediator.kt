@@ -1,6 +1,7 @@
 package ai.bale.theguardian.remote
 
 import ai.bale.theguardian.db.AppDatabase
+import ai.bale.theguardian.db.NewsEntity
 import ai.bale.theguardian.model.ApiResponse
 import ai.bale.theguardian.model.FetchedData
 import ai.bale.theguardian.model.Field
@@ -17,20 +18,21 @@ import androidx.room.withTransaction
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.await
 import java.io.IOException
 import java.lang.Exception
 
 @OptIn(ExperimentalPagingApi::class)
 class RemoteMediator(
     private val apiService: GuardianApiService,
-    private val database: AppDatabase
-) : RemoteMediator<Int, News>() {
+    private val database: AppDatabase,
+    private val category: String
+) : RemoteMediator<Int, NewsEntity>() {
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, News>
+        state: PagingState<Int, NewsEntity>
     ): MediatorResult {
-
         val page = when (loadType) {
             LoadType.REFRESH -> {
                 1
@@ -41,41 +43,21 @@ class RemoteMediator(
             LoadType.APPEND -> {
                 val lastItem = state.lastItemOrNull()
                 if (lastItem == null) {
-                    return MediatorResult.Success(
-                        endOfPaginationReached = true
-                    )
+                    1
                 }else {
-                    (lastItem.id.toInt() / state.config.pageSize) + 1
+                    (lastItem.id / state.config.pageSize) + 1
                 }
             }
         }
 
         try {
-            val apiResponse = apiService.callData("news", page, state.config.pageSize)
-            var allNews : List<News> = emptyList()
+            val response = apiService.callData(category, page, state.config.pageSize).await()
+            val allNews: List<News> = response.data.news
 
-            apiResponse.enqueue(object : Callback<FetchedData> {
-                override fun onResponse(call: Call<FetchedData>, response: Response<FetchedData>) {
-                    if (response.isSuccessful) {
-                        val fetchedData = response.body()
-                        if (fetchedData != null) {
-                            allNews = fetchedData.data.news
-                        }
-                    }
-                }
-                override fun onFailure(call: Call<FetchedData>, t: Throwable) {
-                    MediatorResult.Error(t)
-
-                }
-            })
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     database.dao().clearAll()
-                }
-                Log.v("checking", allNews.size.toString())
-                for (new in allNews){
-                    Log.v("checking", new.fields.title)
                 }
                 database.dao().insertAll(allNews.map { it.toEntity() })
             }
