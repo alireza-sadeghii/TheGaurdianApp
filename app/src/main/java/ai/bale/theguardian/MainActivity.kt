@@ -5,6 +5,7 @@ import ai.bale.theguardian.databinding.ActivityMainBinding
 import ai.bale.theguardian.databinding.ToolbarMainBinding
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        applicationContext.deleteDatabase("guardian.db")
 
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         toolbarBinding = ToolbarMainBinding.inflate(layoutInflater)
@@ -33,7 +35,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val viewPager = mainBinding.viewpager
         val viewAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPager.adapter = viewAdapter
-        viewPager.offscreenPageLimit = 2
 
 
 
@@ -43,9 +44,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val tabLayout = mainBinding.toolbarTabs
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                viewPager.currentItem = tab!!.position
-                navigationView.menu[tab.position].isChecked = true
-                tab.select()
+                if (tab != null) {
+                    viewPager.currentItem = tab.position
+                    navigationView.menu[tab.position].isChecked = true
+                    tab.select()
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
