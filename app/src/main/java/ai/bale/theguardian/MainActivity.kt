@@ -1,28 +1,39 @@
 package ai.bale.theguardian
 
 import ai.bale.theguardian.adapter.ViewPagerAdapter
+import ai.bale.theguardian.data.SettingsViewModel
 import ai.bale.theguardian.databinding.ActivityMainBinding
 import ai.bale.theguardian.databinding.ToolbarMainBinding
+import ai.bale.theguardian.settings.SettingsActivity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
-import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.core.view.get
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
+import java.lang.Exception
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
     lateinit var mainBinding: ActivityMainBinding
-    lateinit var toolbarBinding: ToolbarMainBinding
+    lateinit var viewPager: ViewPager
+    private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        applySettings()
         super.onCreate(savedInstanceState)
 
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
-        toolbarBinding = ToolbarMainBinding.inflate(layoutInflater)
+        val toolbarBinding = ToolbarMainBinding.inflate(layoutInflater)
 
         setContentView(mainBinding.root)
 
@@ -32,7 +43,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
 
-        val viewPager = mainBinding.viewpager
+        viewPager = mainBinding.viewpager
         val viewAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPager.adapter = viewAdapter
         viewPager.offscreenPageLimit = 2
@@ -72,8 +83,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         })
 
+
+        if (savedInstanceState != null) {
+            val selectedTabPosition = savedInstanceState.getInt("selectedTabPosition", 0)
+            viewPager.currentItem = selectedTabPosition
+        }
     }
-    
+
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val viewPager = mainBinding.viewpager
@@ -112,6 +128,36 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         item.isChecked = true
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("selectedTabPosition", viewPager.currentItem)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.options_menu, menu)
+        return true
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.settings_option_menu -> {
+                val settingIntent = Intent(this, SettingsActivity::class.java)
+                startActivity(settingIntent)
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun applySettings(){
+        try{
+            Log.v("checking",viewModel.getNumberOfItems().toString())
+        }catch (e : Exception){
+            Log.v("checking",e.message.toString())
+        }
     }
 
 }
