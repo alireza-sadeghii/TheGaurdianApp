@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/blue"
+    android:background="?attr/colorPrimary"
     android:paddingTop="160dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 

@@ -22,7 +22,6 @@
             app:title="@string/title"
             app:titleTextColor="@color/blue" />
 
-
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/toolbar_tabs"
             android:layout_width="match_parent"
@@ -101,7 +100,6 @@
             android:contentDescription="@string/content_description">
 
         </androidx.viewpager.widget.ViewPager>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

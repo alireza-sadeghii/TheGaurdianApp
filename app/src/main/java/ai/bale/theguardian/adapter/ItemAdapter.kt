@@ -12,7 +12,6 @@ import android.util.Log
 
 class ItemAdapter : PagingDataAdapter<News, ItemViewHolder>(COMPARATOR) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        Log.v("checking", "create holder")
         val inflater = LayoutInflater.from(parent.context)
         val binding = ListItemBinding.inflate(inflater, parent, false)
         return ItemViewHolder(binding)

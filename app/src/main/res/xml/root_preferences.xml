@@ -1,0 +1,54 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+
+        <EditTextPreference
+            app:key="numOfItem"
+            app:defaultValue="10"
+            app:title="Number Of Items"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="oldest"
+            app:entries="@array/item_order_entries"
+            app:entryValues="@array/item_order_values"
+            app:key="orderBy"
+            app:title="Order By"
+            app:useSimpleSummaryProvider="true" />
+
+        <!-- TODO: make a date picker -->
+        <EditTextPreference
+            app:key="fromDate"
+            app:title="From Date"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="published"
+            app:entries="@array/date_order_entries"
+            app:entryValues="@array/date_order_values"
+            app:key="orderDate"
+            app:title="Order Date"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Customize Styles">
+
+        <ListPreference
+            app:defaultValue="#FFFFFF"
+            app:entries="@array/theme_entries"
+            app:entryValues="@array/theme_values"
+            app:key="colorTheme"
+            app:title="Color Theme"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="22"
+            app:entries="@array/text_sizes_entries"
+            app:entryValues="@array/text_sizes_values"
+            app:key="textSize"
+            app:title="Text Size"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
