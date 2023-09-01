@@ -30,4 +30,13 @@ interface GuardianApiService {
         @Query("page") page: Int,
         @Query("page-size") page_size: Int
     ): Call<FetchedData>
+
+    @GET("{section}?api-key=test&format=json&show-tags=contributor&show-fields=starRating,headline,thumbnail,body")
+    fun callDataByDetails(
+        @Path("section") section: String,
+        @Query("page") page: Int,
+        @Query("page-size") page_size: Int,
+        @Query("order-by") order_by: String = "oldest",
+        @Query("order-date") order_date: String = "published"
+    ): Call<FetchedData>
 }
