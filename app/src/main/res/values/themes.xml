@@ -1,13 +1,43 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.TheGuardian" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/sky_blue</item>
         <item name="colorSecondary">@color/violet</item>
         <item name="preferenceCategoryTitleTextColor">@color/violet</item>
     </style>
 
     <style name="Theme.TheGuardian" parent="Base.Theme.TheGuardian" />
+
+    <style name="WhiteTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+
+    <style name="WhiteTheme">
+        <item name="android:background">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="SkyBlueTheme">
+        <item name="android:background">@color/sky_blue</item>
+    </style>
+
+    <style name="DarkBlueTheme">
+        <item name="android:background">@color/dark_blue</item>
+    </style>
+
+    <style name="VioletTheme">
+        <item name="android:background">@color/violet</item>
+    </style>
+
+    <style name="LightGreenTheme">
+        <item name="android:background">@color/light_green</item>
+    </style>
+
+    <style name="GreenTheme">
+        <item name="android:background">@color/green</item>
+    </style>
+
 
 
 </resources>
