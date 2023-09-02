@@ -16,11 +16,6 @@
             app:title="Order By"
             app:useSimpleSummaryProvider="true" />
 
-        <!-- TODO: make a date picker -->
-        <EditTextPreference
-            app:key="fromDate"
-            app:title="From Date"
-            app:useSimpleSummaryProvider="true" />
 
         <ListPreference
             app:defaultValue="published"
@@ -43,10 +38,10 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="22"
+            app:defaultValue="1"
             app:entries="@array/text_sizes_entries"
             app:entryValues="@array/text_sizes_values"
-            app:key="textSize"
+            app:key="textScale"
             app:title="Text Size"
             app:useSimpleSummaryProvider="true" />
 

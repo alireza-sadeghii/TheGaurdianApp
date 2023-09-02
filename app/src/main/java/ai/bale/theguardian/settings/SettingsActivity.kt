@@ -6,7 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val binding = ActivitySettingsBinding.inflate(layoutInflater)

@@ -1,23 +1,16 @@
 package ai.bale.theguardian.remote
 
+import ai.bale.theguardian.data.SettingsData
 import ai.bale.theguardian.db.AppDatabase
 import ai.bale.theguardian.db.NewsEntity
-import ai.bale.theguardian.model.ApiResponse
-import ai.bale.theguardian.model.FetchedData
-import ai.bale.theguardian.model.Field
 import ai.bale.theguardian.model.News
-import ai.bale.theguardian.model.Tag
 import ai.bale.theguardian.model.toEntity
 import ai.bale.theguardian.network.GuardianApiService
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.await
 import java.io.IOException
 import java.lang.Exception
@@ -51,7 +44,8 @@ class RemoteMediator(
         }
 
         try {
-            val response = apiService.callData(category, page, state.config.pageSize).await()
+            val response = apiService.callDataByDetails(category, page, state.config.pageSize,
+                SettingsData.orderBy, SettingsData.orderDate).await()
             val allNews: List<News> = response.data.news
 
 
