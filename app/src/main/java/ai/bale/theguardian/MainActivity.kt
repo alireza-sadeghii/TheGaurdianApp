@@ -8,8 +8,12 @@ import ai.bale.theguardian.settings.SettingsActivity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
@@ -41,7 +45,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewPager = mainBinding.viewpager
         val viewAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPager.adapter = viewAdapter
-        viewPager.offscreenPageLimit = 2
+        viewPager.offscreenPageLimit = 10
 
 
         val navigationView = mainBinding.navigationViewMain
@@ -86,6 +90,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (savedInstanceState != null) {
             val selectedTabPosition = savedInstanceState.getInt("selectedTabPosition", 0)
             viewPager.currentItem = selectedTabPosition
+
+            val settingsBundle = savedInstanceState.getBundle("settingsBundle")
+            if (settingsBundle != null) {
+                SettingsData.numOfItems = settingsBundle.getString("numOfItems", "10") ?: "10"
+                SettingsData.orderBy = settingsBundle.getString("orderBy", "oldest") ?: "oldest"
+                SettingsData.orderDate = settingsBundle.getString("orderDate", "published") ?: "published"
+                SettingsData.colorTheme = settingsBundle.getString("colorTheme", "#FFFFFF") ?: "#FFFFFF"
+                SettingsData.textScale = settingsBundle.getString("textScale", "1") ?: "1"
+            }
         }
     }
 
@@ -137,11 +150,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt("selectedTabPosition", viewPager.currentItem)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.options_menu, menu)
         return true
@@ -169,5 +177,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         SettingsData.colorTheme = preference.getString("colorTheme", "#FFFFFF") ?: "#FFFFFF"
         SettingsData.textScale = preference.getString("textScale", "1") ?: "1"
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("currentItem", viewPager.currentItem)
+        outState.putInt("selectedTabPosition", viewPager.currentItem)
+
+        val settingsBundle = Bundle()
+        settingsBundle.putString("numOfItems", SettingsData.numOfItems)
+        settingsBundle.putString("orderBy", SettingsData.orderBy)
+        settingsBundle.putString("orderDate", SettingsData.orderDate)
+        settingsBundle.putString("colorTheme", SettingsData.colorTheme)
+        settingsBundle.putString("textScale", SettingsData.textScale)
+        outState.putBundle("settingsBundle", settingsBundle)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val currentItem = savedInstanceState.getInt("currentItem", 0)
+        viewPager.currentItem = currentItem
+        val selectedTabPosition = savedInstanceState.getInt("selectedTabPosition", 0)
+        mainBinding.toolbarTabs.getTabAt(selectedTabPosition)?.select()
+    }
+
 
 }
