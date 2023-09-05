@@ -5,6 +5,7 @@ import ai.bale.theguardian.data.SettingsData
 import ai.bale.theguardian.databinding.ActivityMainBinding
 import ai.bale.theguardian.databinding.ToolbarMainBinding
 import ai.bale.theguardian.settings.SettingsActivity
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -23,6 +24,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -177,6 +179,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         SettingsData.colorTheme = preference.getString("colorTheme", "#FFFFFF") ?: "#FFFFFF"
         SettingsData.textScale = preference.getString("textScale", "1") ?: "1"
     }
+
+    /*private fun setFontSize(context: Context): Context{
+        val configuration = context.resources.configuration
+        configuration.fontScale = SettingsData.textScale.toFloat()
+        return context.createConfigurationContext(configuration)
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        if (newBase == null) return
+        val configuration = setFontSize(newBase)
+        super.attachBaseContext(configuration)
+    }*/
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
