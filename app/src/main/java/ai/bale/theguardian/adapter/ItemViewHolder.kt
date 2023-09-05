@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
@@ -52,21 +53,26 @@ class ItemViewHolder(private val binding: ListItemBinding) : RecyclerView.ViewHo
                     type = "text/plain"
                     putExtra(Intent.EXTRA_TEXT, new.url)
                 }
-                binding.root.context.startActivity(Intent.createChooser
-                    (shareIntent, "Share using"))
+                binding.root.context.startActivity(
+                    Intent.createChooser
+                        (shareIntent, "Share using")
+                )
             }
 
             TooltipCompat.setTooltipText(binding.shareButton, "Share")
 
             binding.root.setOnClickListener {
+                Log.v("checking", new.url)
+
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(new.url))
                 binding.root.context.startActivity(intent)
             }
-        } catch (_: Exception) { }
+        } catch (_: Exception) {
+        }
     }
 
     @SuppressLint("ResourceType")
-    private fun applyChanges(){
+    private fun applyChanges() {
         val context = binding.root.context
 
         val color = when (SettingsData.colorTheme) {
