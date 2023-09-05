@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class NewsViewModel(private val database: AppDatabase, private val api: GuardianApiService, private val category: String) : ViewModel() {
-    private lateinit var repository: DataRepository
+    private var repository: DataRepository
 
 
     init {
