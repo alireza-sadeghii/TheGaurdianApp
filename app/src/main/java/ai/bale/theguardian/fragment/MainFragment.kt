@@ -15,11 +15,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class MainFragment(private val category: String) : Fragment() {
-    override fun onCreateView(
+    private lateinit var binding: FragmentLayoutBinding
+    private lateinit var layoutManager: LinearLayoutManager
+        override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,11 +33,12 @@ class MainFragment(private val category: String) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = FragmentLayoutBinding.bind(view)
+        binding = FragmentLayoutBinding.bind(view)
         val itemAdapter = ItemAdapter()
 
         val recyclerView = binding.recyclerview
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = layoutManager
         recyclerView.adapter = itemAdapter
 
         val apiService = GuardianApi.retrofitService
@@ -42,10 +46,29 @@ class MainFragment(private val category: String) : Fragment() {
         val viewModel = NewsViewModel(database, apiService, category)
 
 
+        if (savedInstanceState != null) {
+            val scrollPosition = savedInstanceState.getInt("scrollPosition", 0)
+            layoutManager.scrollToPosition(scrollPosition)
+        }
+
+
         lifecycleScope.launch {
             viewModel.pagingFlow().collectLatest { new ->
                 itemAdapter.submitData(new)
             }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("scrollPosition", layoutManager.findFirstVisibleItemPosition())
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (savedInstanceState != null) {
+            val scrollPosition = savedInstanceState.getInt("scrollPosition", 0)
+            layoutManager.scrollToPosition(scrollPosition)
         }
     }
 }
