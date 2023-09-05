@@ -116,6 +116,7 @@
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:src="@drawable/share_icon"
+                    android:backgroundTint="@android:color/transparent"
                     android:contentDescription="share"
                     android:background="@color/white" />
             </LinearLayout>
